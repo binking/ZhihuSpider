@@ -82,7 +82,7 @@ def main():
         print e
         with open('saved_topic_in_cache.txt', 'w') as fw:
             for record in TOPIC_CACHE:
-                fw.write(record+'\n')
+                fw.write(record.encode('utf8')+'\n')
 
     import ipdb; ipdb.set_trace()
     text = print_tree(root)
