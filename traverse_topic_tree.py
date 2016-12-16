@@ -5,6 +5,8 @@ import json
 import requests
 from config import ZHIHU_CURL
 
+TOPIC_CACHE = []
+
 def parse_curl(curl):
     """
     Given curl that was cpoied from Chrome, no matter baidu or sogou, 
@@ -56,10 +58,12 @@ def traverse_tree_recusively(url):
         return ret_dict
     
     for child in child_list:
-        child_url = 'https://www.zhihu.com/topic/19776749/organize/entire?child=&parent=%s' % child[0][2]
         print "Child: ", child_url
+        print '%s(%s) -> %s(%s)' % (msg_list[1], msg_list[2], child[0][1], child[0][2])
+        TOPIC_CACHE.append('%s(%s) -> %s(%s)' % (msg_list[1], msg_list[2], child[0][1], child[0][2]))
+        child_url = 'https://www.zhihu.com/topic/19776749/organize/entire?child=&parent=%s' % child[0][2]
         ret_dict['child'].append(traverse_tree_recusively(child_url))
-    print ret_dict
+    # print ret_dict
     return ret_dict
 
 def print_tree(node, depth=0, indent=4, indent_sign='\t'):
@@ -70,6 +74,27 @@ def print_tree(node, depth=0, indent=4, indent_sign='\t'):
         sentences.extend(print_tree(child, depth=depth+1, indent=indent, indent_sign=indent_sign))
     return sentences
 
+def main():
+    root = 'https://www.zhihu.com/topic/19776749/organize/entire'
+    try:
+        res = traverse_tree_recusively(root)
+    except Exception as e:
+        print e
+        with open('saved_topic_in_cache.txt', 'w') as fw:
+            for record in TOPIC_CACHE:
+                fw.write(record+'\n')
+
+    import ipdb; ipdb.set_trace()
+    text = print_tree(root)
+    with open('zhihu_topic_structure.txt', 'w') as fw:
+        for sen in text:
+            print sen
+            fw.write(sen.encode('utf-8')+'\n')
+
+if __name__=="__main__":
+    main()
+
+"""
 def test_recursive():
     root = 'https://www.zhihu.com/topic/19776749/organize/entire'
     test_child = 'https://www.zhihu.com/topic/19776749/organize/entire?child=&parent=19610139'
@@ -83,16 +108,4 @@ def test_print():
         for sen in text:
             print sen
             fw.write(sen.encode('utf-8')+'\n')
-
-def main():
-    root = 'https://www.zhihu.com/topic/19776749/organize/entire'
-    res = traverse_tree_recusively(root)
-    import ipdb; ipdb.set_trace()
-    text = print_tree(root)
-    with open('zhihu_topic_structure.txt', 'w') as fw:
-        for sen in text:
-            print sen
-            fw.write(sen.encode('utf-8')+'\n')
-
-if __name__=="__main__":
-    main()
+"""
