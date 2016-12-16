@@ -58,10 +58,10 @@ def traverse_tree_recusively(url):
         return ret_dict
     
     for child in child_list:
-        print "Child: ", child_url
         print '%s(%s) -> %s(%s)' % (msg_list[1], msg_list[2], child[0][1], child[0][2])
         TOPIC_CACHE.append('%s(%s) -> %s(%s)' % (msg_list[1], msg_list[2], child[0][1], child[0][2]))
         child_url = 'https://www.zhihu.com/topic/19776749/organize/entire?child=&parent=%s' % child[0][2]
+        print "Child: ", child_url
         ret_dict['child'].append(traverse_tree_recusively(child_url))
     # print ret_dict
     return ret_dict
