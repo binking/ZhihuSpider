@@ -68,7 +68,7 @@ class ZhihuTopicWriter(DBAccesor):
     def connect_database(self):
         return DBAccesor.connect_database(self)
 
-    def insert_edge_node(parent, p_id, child, c_id, depth):
+    def insert_edge_node(self, parent, p_id, child, c_id, depth):
         conn = self.connect_database()
         if not conn:
             return False
@@ -84,7 +84,7 @@ class ZhihuTopicWriter(DBAccesor):
         # conn.commit(); cursor.close(); conn.close()
         return True
 
-    def insert_node_leaf(node, is_leaf):
+    def insert_node_leaf(self, node, is_leaf):
         conn = self.connect_database()
         if not conn:
             return False
