@@ -63,14 +63,13 @@ def traverse_tree_recusively(url, depth=0, max_depth=3):
         return ret_dict
     
     for child in child_list:
-        if '未归类'.decode('utf8') in child[0][1]:
-            continue
+        # if '未归类'.decode('utf8') in child[0][1]:
+        #    continue
         # print '%s(%s) -> %s(%s) -> %d' % (msg_list[1], msg_list[2], child[0][1], child[0][2], depth+1)
         if child[0][1] == '加载更多'.decode('utf8'):
             print '加载更多 ...'
             child_url = 'https://www.zhihu.com/topic/19776749/organize/entire?child=%s&parent=%s' % (child[0][2], msg_list[2])
-            temp = traverse_tree_recusively(child_url, depth, max_depth=max_depth)
-            ret_dict['child'].append(temp)
+            ret_dict['child'].append(traverse_tree_recusively(child_url, depth, max_depth=max_depth))
         else:
             child_url = 'https://www.zhihu.com/topic/19776749/organize/entire?child=&parent=%s' % child[0][2]
             print "Child: ", child_url
