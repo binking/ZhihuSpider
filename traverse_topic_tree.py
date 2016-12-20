@@ -81,14 +81,13 @@ def main():
     root = 'https://www.zhihu.com/topic/19776749/organize/entire'
     try:
         res = traverse_tree_recusively(root, max_depth=2)
+        import ipdb; ipdb.set_trace()
+        text = print_tree(res)
     except Exception as e:
         print e
         # with open('saved_topic_in_cache.txt', 'w') as fw:
         #     for record in TOPIC_CACHE:
         #         fw.write(record.encode('utf8')+'\n')
-
-    import ipdb; ipdb.set_trace()
-    text = print_tree(root)
     # with open('zhihu_topic_structure.txt', 'w') as fw:
     #     for sen in text:
     #         print sen
