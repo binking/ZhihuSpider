@@ -75,11 +75,11 @@ class ZhihuTopicWriter(DBAccesor):
         cursor = conn.cursor()
         insert_sql = """
             INSERT INTO zhihutopictree (parent, p_id, child, c_id, depth)
-            SELECT  '{p_node}', '{p_id}', '{c_node}', '{c_id}', {depth}
+            SELECT  %s, %s, %s, %s, %s
             FROM DUAL
-            WHERE NOT EXISTS (SELECT id FROM zhihutopictree WHERE p_id ='{p_id}' and c_id = '{c_id}')
-        """.format(p_node=parent, p_id=p_id, c_node=child, c_id=c_id, depth=depth)
-        if cursor.execute(insert_sql):
+            WHERE NOT EXISTS (SELECT id FROM zhihutopictree WHERE p_id = %s and c_id = %s)
+        """
+        if cursor.execute(insert_sql, (parent, p_id, child, c_id, depth, p_id, c_id)):
             print '$'*10, 'Insert parent-child edge succeeded !'
         conn.commit(); cursor.close(); conn.close()
         return True
@@ -91,11 +91,11 @@ class ZhihuTopicWriter(DBAccesor):
         cursor = conn.cursor()
         insert_sql = """
             INSERT INTO zhihutopicleaf (node_id, is_leaf)
-            SELECT '{node}', '{is_leaf}'
+            SELECT %s, %s
             FROM DUAL 
-            WHERE NOT EXISTS (SELECT id FROM zhihutopicleaf WHERE node_id='{node}')
-        """.format(node=node, is_leaf=is_leaf)
-        if cursor.execute(insert_sql):
+            WHERE NOT EXISTS (SELECT id FROM zhihutopicleaf WHERE node_id=%s)
+        """
+        if cursor.execute(insert_sql, (node, is_leaf, node)):
             print '$'*10, 'Insert node/leaf succeeded !'
         conn.commit(); cursor.close(); conn.close()
         return True
