@@ -74,8 +74,8 @@ def traverse_tree_recusively(url, depth=0, max_depth=3):
         return ret_dict
     
     for child in child_list:
-        if '未归类'.decode('utf8') in child[0][1]:
-           continue
+        # if '未归类'.decode('utf8') in child[0][1]:
+        #    continue
         # print '%s(%s) -> %s(%s) -> %d' % (msg_list[1], msg_list[2], child[0][1], child[0][2], depth+1)
         if child[0][1] == '加载更多'.decode('utf8'):
             print '加载更多 ...'
