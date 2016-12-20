@@ -3,10 +3,17 @@
 import os
 import json
 import time
-import sqlite3
+import redis
+import MySQLdb as mdb
 import requests
-from config import ZHIHU_CURL
+from zhihu_writer import ZhihuTopicWriter
+from config import (ZHIHU_CURL, 
+    QCLOUD_MYSQL, 
+    LOCAL_REDIS,
+    CHILD_URLS
+)
 
+R_CONN = redis.StrictRedis(**LOCAL_REDIS)  # set
 TOPIC_CACHE = []
 
 def parse_curl(curl):
@@ -41,12 +48,13 @@ def traverse_tree_recusively(url, depth=0, max_depth=3):
     _, header, post_data = parse_curl(ZHIHU_CURL)
     try:
         r = requests.post(url, headers=header, data=post_data)
+        R_CONN.sadd(CHILD_URLS, url)
         response = r.text.encode('utf8') #  os.popen(ZHIHU_CURL).read()
         node = json.loads(response)
     except Exception as e:
         print e
-        time.sleep(5)
         return {'topic': '', 'id': '', 'is_leaf': 'Unknown', 'child': []}
+    db = ZhihuTopicWriter(QCLOUD_MYSQL)
     msg_list = node['msg'][0]
     child_list = node['msg'][1]
     ret_dict = {'topic': msg_list[1], 'id': msg_list[2], 'child': []}
@@ -57,10 +65,12 @@ def traverse_tree_recusively(url, depth=0, max_depth=3):
     if len(child_list) == 0:
         print "Leaf: ", msg_list[1]
         ret_dict['is_leaf'] = 'Y'
+        db.insert_node_leaf(msg_list[2], 'Y')
         return ret_dict
     elif depth >= max_depth:
         print "Deepest node: ", msg_list[1]
         ret_dict['is_leaf'] = 'N'
+        db.insert_node_leaf(msg_list[2], 'N')
         return ret_dict
     
     for child in child_list:
@@ -75,12 +85,13 @@ def traverse_tree_recusively(url, depth=0, max_depth=3):
             child_url = 'https://www.zhihu.com/topic/19776749/organize/entire?child=&parent=%s' % child[0][2]
             print "Child: ", child_url
             print '%s(%s) -> %s(%s) -> %d' % (msg_list[1], msg_list[2], child[0][1], child[0][2], depth+1)
+            db.insert_edge_node(msg_list[1], msg_list[2], child[0][1], child[0][2], depth+1)
             ret_dict['child'].append(traverse_tree_recusively(child_url, depth+1, max_depth=max_depth))
 
     return ret_dict
 
 def print_tree(node, depth=0, indent=4, indent_sign='\t'):
-    sentences = ['%s%s(%s)' % (indent_sign*depth, node['topic'], node['id'])]
+    sentences = ['%s%s(%s)(is_leaf: %s)' % (indent_sign*depth, node['topic'], node['id'], node['is_leaf'])]
     if not node['child']:
         return sentences
     for child in node['child']:
