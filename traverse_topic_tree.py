@@ -47,6 +47,8 @@ def traverse_tree_recusively(url, depth=0, max_depth=3):
     print 'current depth is %d, parsing: %s' % (depth, url)
     _, header, post_data = parse_curl(ZHIHU_CURL)
     try:
+        if R_CONN.sismember(CHILD_URLS, url)
+            return {}
         r = requests.post(url, headers=header, data=post_data)
         R_CONN.sadd(CHILD_URLS, url)
         response = r.text.encode('utf8') #  os.popen(ZHIHU_CURL).read()
@@ -101,7 +103,7 @@ def print_tree(node, depth=0, indent=4, indent_sign='\t'):
 def main():
     root = 'https://www.zhihu.com/topic/19776749/organize/entire'
     try:
-        res = traverse_tree_recusively(root, max_depth=2)
+        res = traverse_tree_recusively(root, max_depth=5)
         import ipdb; ipdb.set_trace()
         for txt in print_tree(res):
             print txt
