@@ -2,6 +2,7 @@
 #-*-coding:utf8-*-
 import os
 import json
+import time
 import requests
 from config import ZHIHU_CURL
 
@@ -34,8 +35,8 @@ def parse_curl(curl):
         traceback.print_exc()
     return url, header, data
 
-def traverse_tree_recusively(url):
-    print 'Parsing: ', url
+def traverse_tree_recusively(url, depth=0, max_depth=3):
+    print 'current depth is %d, parsing: %s' % (depth, url)
     _, header, post_data = parse_curl(ZHIHU_CURL)
     try:
         r = requests.post(url, headers=header, data=post_data)
@@ -45,7 +46,6 @@ def traverse_tree_recusively(url):
         print e
         time.sleep(5)
         return {'topic': '', 'id': '', 'child': []}
-    # import ipdb; ipdb.set_trace()
     msg_list = node['msg'][0]
     child_list = node['msg'][1]
     ret_dict = {'topic': msg_list[1], 'id': msg_list[2], 'child': []}
@@ -56,14 +56,17 @@ def traverse_tree_recusively(url):
     if len(child_list) == 0:
         print "Leaf: ", msg_list[1]
         return ret_dict
+    elif depth >= max_depth:
+        print "Deepest node: ", msg_list[1]
+        return ret_dict
     
     for child in child_list:
         print '%s(%s) -> %s(%s)' % (msg_list[1], msg_list[2], child[0][1], child[0][2])
-        TOPIC_CACHE.append('%s(%s) -> %s(%s)' % (msg_list[1], msg_list[2], child[0][1], child[0][2]))
+        TOPIC_CACHE.append('%s(%s) -> %s(%s) -> %d' % (msg_list[1], msg_list[2], child[0][1], child[0][2]), depth+1)
         child_url = 'https://www.zhihu.com/topic/19776749/organize/entire?child=&parent=%s' % child[0][2]
         print "Child: ", child_url
-        ret_dict['child'].append(traverse_tree_recusively(child_url))
-    # print ret_dict
+        ret_dict['child'].append(traverse_tree_recusively(child_url, depth+1, max_depth=max_depth))
+
     return ret_dict
 
 def print_tree(node, depth=0, indent=4, indent_sign='\t'):
@@ -77,19 +80,19 @@ def print_tree(node, depth=0, indent=4, indent_sign='\t'):
 def main():
     root = 'https://www.zhihu.com/topic/19776749/organize/entire'
     try:
-        res = traverse_tree_recusively(root)
+        res = traverse_tree_recusively(root, max_depth=2)
     except Exception as e:
         print e
-        with open('saved_topic_in_cache.txt', 'w') as fw:
-            for record in TOPIC_CACHE:
-                fw.write(record.encode('utf8')+'\n')
+        # with open('saved_topic_in_cache.txt', 'w') as fw:
+        #     for record in TOPIC_CACHE:
+        #         fw.write(record.encode('utf8')+'\n')
 
     import ipdb; ipdb.set_trace()
     text = print_tree(root)
-    with open('zhihu_topic_structure.txt', 'w') as fw:
-        for sen in text:
-            print sen
-            fw.write(sen.encode('utf-8')+'\n')
+    # with open('zhihu_topic_structure.txt', 'w') as fw:
+    #     for sen in text:
+    #         print sen
+    #         fw.write(sen.encode('utf-8')+'\n')
 
 if __name__=="__main__":
     main()
