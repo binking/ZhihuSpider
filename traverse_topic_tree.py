@@ -47,9 +47,9 @@ def traverse_tree_recusively(url, depth=0, max_depth=3):
     print 'current depth is %d, parsing: %s' % (depth, url)
     _, header, post_data = parse_curl(ZHIHU_CURL)
     try:
-        if R_CONN.sismember(CHILD_URLS, url):
-            print 'Url existed: %s' % url
-            return {}
+        # if R_CONN.sismember(CHILD_URLS, url):
+        #     print 'Url existed: %s' % url
+        #     return {}
         r = requests.post(url, headers=header, data=post_data)
         R_CONN.sadd(CHILD_URLS, url)
         response = r.text.encode('utf8') #  os.popen(ZHIHU_CURL).read()
