@@ -4,7 +4,7 @@ import time
 import traceback
 from datetime import datetime as dt
 import MySQLdb as mdb
-from weibo_config import *
+from config import *
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
