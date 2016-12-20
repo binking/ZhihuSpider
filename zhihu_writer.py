@@ -81,7 +81,7 @@ class ZhihuTopicWriter(DBAccesor):
         """.format(p_node=parent, p_id=p_id, c_node=child, c_id=c_id, depth=depth)
         if cursor.execute(insert_sql):
             print '$'*10, 'Insert parent-child edge succeeded !'
-        # conn.commit(); cursor.close(); conn.close()
+        conn.commit(); cursor.close(); conn.close()
         return True
 
     def insert_node_leaf(self, node, is_leaf):
@@ -97,5 +97,5 @@ class ZhihuTopicWriter(DBAccesor):
         """.format(node=node, is_leaf=is_leaf)
         if cursor.execute(insert_sql):
             print '$'*10, 'Insert node/leaf succeeded !'
-        # conn.commit(); cursor.close(); conn.close()
+        conn.commit(); cursor.close(); conn.close()
         return True
