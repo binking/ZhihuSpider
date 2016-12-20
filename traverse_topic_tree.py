@@ -3,6 +3,7 @@
 import os
 import json
 import time
+import sqlite3
 import requests
 from config import ZHIHU_CURL
 
@@ -73,9 +74,7 @@ def traverse_tree_recusively(url, depth=0, max_depth=3):
         else:
             child_url = 'https://www.zhihu.com/topic/19776749/organize/entire?child=&parent=%s' % child[0][2]
             print "Child: ", child_url
-            # temp = 
-            # TOPIC_CACHE.append('%s(%s) -> %s(%s) -> %d --> is_leaf(%s)' % (msg_list[1], msg_list[2], child[0][1], child[0][2], depth+1, temp['is_leaf']))
-            # print '%s(%s) -> %s(%s) -> %d --> is_leaf(%s)' % (msg_list[1], msg_list[2], child[0][1], child[0][2], depth+1, temp['is_leaf'])
+            print '%s(%s) -> %s(%s) -> %d' % (msg_list[1], msg_list[2], child[0][1], child[0][2], depth+1)
             ret_dict['child'].append(traverse_tree_recusively(child_url, depth+1, max_depth=max_depth))
 
     return ret_dict
