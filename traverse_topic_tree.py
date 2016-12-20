@@ -45,32 +45,37 @@ def traverse_tree_recusively(url, depth=0, max_depth=3):
     except Exception as e:
         print e
         time.sleep(5)
-        return {'topic': '', 'id': '', 'child': []}
+        return {'topic': '', 'id': '', 'is_leaf': 'Unknown', 'child': []}
     msg_list = node['msg'][0]
     child_list = node['msg'][1]
     ret_dict = {'topic': msg_list[1], 'id': msg_list[2], 'child': []}
 
     if not node.get('msg'):
-        return {'topic': '', 'id': '', 'child': []}
+        return {'topic': '', 'id': '', 'is_leaf': 'Unknown', 'child': []}
 
     if len(child_list) == 0:
         print "Leaf: ", msg_list[1]
+        ret_dict['is_leaf'] = 'Y'
         return ret_dict
     elif depth >= max_depth:
         print "Deepest node: ", msg_list[1]
+        ret_dict['is_leaf'] = 'N'
         return ret_dict
     
-    for child in child_list:
-        print '%s(%s) -> %s(%s) -> %d' % (msg_list[1], msg_list[2], child[0][1], child[0][2], depth+1)
+    for child in child_list[1:]:
+        # print '%s(%s) -> %s(%s) -> %d' % (msg_list[1], msg_list[2], child[0][1], child[0][2], depth+1)
         if child[0][1] == '加载更多'.decode('utf8'):
             print '加载更多 ...'
             child_url = 'https://www.zhihu.com/topic/19776749/organize/entire?child=%s&parent=%s' % (child[0][2], msg_list[2])
-            ret_dict['child'].append(traverse_tree_recusively(child_url, depth, max_depth=max_depth))
+            temp = traverse_tree_recusively(child_url, depth, max_depth=max_depth)
+            ret_dict['child'].append(temp)
         else:
-            TOPIC_CACHE.append('%s(%s) -> %s(%s) -> %d' % (msg_list[1], msg_list[2], child[0][1], child[0][2], depth+1))
             child_url = 'https://www.zhihu.com/topic/19776749/organize/entire?child=&parent=%s' % child[0][2]
             print "Child: ", child_url
-            ret_dict['child'].append(traverse_tree_recusively(child_url, depth+1, max_depth=max_depth))
+            temp = traverse_tree_recusively(child_url, depth+1, max_depth=max_depth)
+            TOPIC_CACHE.append('%s(%s) -> %s(%s) -> %d --> is_leaf(%s)' % (msg_list[1], msg_list[2], child[0][1], child[0][2], depth+1, temp['is_leaf']))
+            print '%s(%s) -> %s(%s) -> %d --> is_leaf(%s)' % (msg_list[1], msg_list[2], child[0][1], child[0][2], depth+1, temp['is_leaf'])
+            ret_dict['child'].append(temp)
 
     return ret_dict
 
