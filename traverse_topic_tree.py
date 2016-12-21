@@ -47,6 +47,7 @@ def traverse_tree_recusively(url, depth=0, max_depth=3):
     print 'current depth is %d, parsing: %s' % (depth, url)
     _, header, post_data = parse_curl(ZHIHU_CURL)
     try:
+        db = ZhihuTopicWriter(QCLOUD_MYSQL)
         r = requests.post(url, headers=header, data=post_data)
         R_CONN.sadd(CHILD_URLS, url)
         response = r.text.encode('utf8') #  os.popen(ZHIHU_CURL).read()
@@ -54,7 +55,6 @@ def traverse_tree_recusively(url, depth=0, max_depth=3):
     except Exception as e:
         print e
         return {'topic': '', 'id': '', 'is_leaf': 'Unknown', 'child': []}
-    db = ZhihuTopicWriter(QCLOUD_MYSQL)
     msg_list = node['msg'][0]
     child_list = node['msg'][1]
     ret_dict = {'topic': msg_list[1], 'id': msg_list[2], 'child': []}
@@ -93,7 +93,8 @@ def main():
     # root = 'https://www.zhihu.com/topic/19776749/organize/entire'
     try:
         for node in node_loader.select_node_in_one_layer(current_depth):
-            traverse_tree_recusively(node, max_depth=current_depth+2)
+            node_url = 'https://www.zhihu.com/topic/19776749/organize/entire?child=&parent=%s'%node
+            traverse_tree_recusively(node_url, depth=current_depth, max_depth=current_depth+2)
             print "="*80, '\n%s DONE !!!\n'%node, "="*80
     except Exception as e:
         print e
