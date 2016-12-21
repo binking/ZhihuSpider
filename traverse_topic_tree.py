@@ -47,9 +47,6 @@ def traverse_tree_recusively(url, depth=0, max_depth=3):
     print 'current depth is %d, parsing: %s' % (depth, url)
     _, header, post_data = parse_curl(ZHIHU_CURL)
     try:
-        # if R_CONN.sismember(CHILD_URLS, url):
-        #     print 'Url existed: %s' % url
-        #     return {}
         r = requests.post(url, headers=header, data=post_data)
         R_CONN.sadd(CHILD_URLS, url)
         response = r.text.encode('utf8') #  os.popen(ZHIHU_CURL).read()
@@ -77,9 +74,6 @@ def traverse_tree_recusively(url, depth=0, max_depth=3):
         return ret_dict
     
     for child in child_list:
-        # if '未归类'.decode('utf8') in child[0][1]:
-        #    continue
-        # print '%s(%s) -> %s(%s) -> %d' % (msg_list[1], msg_list[2], child[0][1], child[0][2], depth+1)
         if child[0][1] == '加载更多'.decode('utf8'):
             print '加载更多 ...'
             child_url = 'https://www.zhihu.com/topic/19776749/organize/entire?child=%s&parent=%s' % (child[0][2], msg_list[2])
@@ -93,21 +87,14 @@ def traverse_tree_recusively(url, depth=0, max_depth=3):
 
     return ret_dict
 
-def print_tree(node, depth=0, indent=4, indent_sign='\t'):
-    sentences = ['%s%s(%s)(is_leaf: %s)' % (indent_sign*depth, node['topic'], node['id'], node['is_leaf'])]
-    if not node['child']:
-        return sentences
-    for child in node['child']:
-        sentences.extend(print_tree(child, depth=depth+1, indent=indent, indent_sign=indent_sign))
-    return sentences
-
 def main():
-    root = 'https://www.zhihu.com/topic/19776749/organize/entire'
+    current_depth = 5
+    node_loader = ZhihuTopicWriter(QCLOUD_MYSQL)
+    # root = 'https://www.zhihu.com/topic/19776749/organize/entire'
     try:
-        res = traverse_tree_recusively(root, max_depth=5)
-        import ipdb; ipdb.set_trace()
-        for txt in print_tree(res):
-            print txt
+        for node in node_loader.select_node_in_one_layer(current_depth):
+            traverse_tree_recusively(node, max_depth=current_depth+2)
+            print "="*80, '\n%s DONE !!!\n'%node, "="*80
     except Exception as e:
         print e
         # with open('saved_topic_in_cache.txt', 'w') as fw:
@@ -117,6 +104,14 @@ def main():
     #     for sen in text:
     #         print sen
     #         fw.write(sen.encode('utf-8')+'\n')
+
+def print_tree(node, depth=0, indent=4, indent_sign='\t'):
+    sentences = ['%s%s(%s)(is_leaf: %s)' % (indent_sign*depth, node['topic'], node['id'], node['is_leaf'])]
+    if not node['child']:
+        return sentences
+    for child in node['child']:
+        sentences.extend(print_tree(child, depth=depth+1, indent=indent, indent_sign=indent_sign))
+    return sentences
 
 if __name__=="__main__":
     main()

@@ -99,3 +99,16 @@ class ZhihuTopicWriter(DBAccesor):
             print '$'*10, 'Insert node/leaf succeeded !'
         conn.commit(); cursor.close(); conn.close()
         return True
+
+    def select_node_in_one_layer(self, depth):
+        conn = self.connect_database()
+        if not conn:
+            return False
+        cursor = conn.cursor()
+        select_node = """
+            SELECT zf.node_id FROM zhihutopictree zt, weibotopicleaf zf
+            WHERE zt.c_id=zf.node_id AND zt.depth=%s AND zf.is_leaf='N'
+        """
+        cursor.execute(select_node, (depth, ))
+        for res in cursor.fetchall():
+            yield res[0]
