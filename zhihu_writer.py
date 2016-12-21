@@ -102,8 +102,6 @@ class ZhihuTopicWriter(DBAccesor):
 
     def select_node_in_one_layer(self, depth):
         conn = self.connect_database()
-        if not conn:
-            return False
         cursor = conn.cursor()
         select_node = """
             SELECT zf.node_id FROM zhihutopictree zt, weibotopicleaf zf
