@@ -104,7 +104,7 @@ class ZhihuTopicWriter(DBAccesor):
         conn = self.connect_database()
         cursor = conn.cursor()
         select_node = """
-            SELECT zf.node_id FROM zhihutopictree zt, weibotopicleaf zf
+            SELECT zf.node_id FROM zhihutopictree zt, zhihutopicleaf zf
             WHERE zt.c_id=zf.node_id AND zt.depth=%s AND zf.is_leaf='N'
         """
         cursor.execute(select_node, (depth, ))
