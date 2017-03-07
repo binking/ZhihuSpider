@@ -145,7 +145,8 @@ def add_jobs(cache):
         return None
     dao = ZhihuTopicWriter(USED_DATABASE)
     for topic_id in dao.select_topic_ids():
-        cache.rpushunit(TOPIC_URL, topic_id)
+        job = "https://www.zhihu.com/topic/%s/top-answers" % topic_id
+        cache.rpushunit(TOPIC_URL, job)
 
 
 def main():
