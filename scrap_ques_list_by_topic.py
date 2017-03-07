@@ -111,7 +111,7 @@ def get_questions_by_topic_multi(cache):
             res = get_questions_by_topic(job, cache)
             if res:
                 cache.rpush(ZHIHU_QUESTION_LIST, pickle.dumps(res))
-            time.sleep(2)
+            time.sleep(5)
         except Exception as e:  # no matter what was raised, cannot let process died
             traceback.print_exc()
             print 'Failed to Access Topic Url: ', job

@@ -58,20 +58,20 @@ class ZhihuTopicWriter(DBAccesor):
 
     def select_topic_ids(self):
         sql = """
-            SELECT c_id FROM zhihutopictree
-            WHERE p_id IN (
-                SELECT c_id FROM zhihutopictree
-                WHERE parent= '家居设计')
-            UNION 
-            SELECT c_id FROM zhihutopictree
-            WHERE parent= '家居设计'
-            UNION 
-            SELECT p_id FROM zhihutopictree
-            WHERE parent='家居设计';
-            -- WHERE NOT EXISTS (
-            --    SELECT id FROM ZhihuTopicQuestionRelation 
-            --    WHERE topic_id=ztl.node_id
-            -- );
+            SELECT node_id from ZhihuTopicLeaf ztl
+            WHERE NOT EXISTS (
+                SELECT id FROM ZhihuTopicQuestionRelation 
+                WHERE topic_id=ztl.node_id);
+            -- SELECT c_id FROM zhihutopictree
+            -- WHERE p_id IN (
+            --     SELECT c_id FROM zhihutopictree
+            --     WHERE parent= '家居设计')
+            -- UNION 
+            -- SELECT c_id FROM zhihutopictree
+            -- WHERE parent= '家居设计'
+            -- UNION 
+            -- SELECT p_id FROM zhihutopictree
+            -- WHERE parent='家居设计';
         """
         conn = self.connect_database()
         cursor = conn.cursor()
