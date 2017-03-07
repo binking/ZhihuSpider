@@ -16,32 +16,7 @@ from config import (ZHIHU_CURL,
 R_CONN = redis.StrictRedis(**LOCAL_REDIS)  # set
 TOPIC_CACHE = []
 
-def parse_curl(curl):
-    """
-    Given curl that was cpoied from Chrome, no matter baidu or sogou, 
-    parse it and then get url and the data you will post/get with requests
-    """
-    url = ''
-    header = {}
-    data = {}
-    tokens = curl.split("'")
-    if not tokens:
-        # curl is empty string
-        return cookie_dict
-    try:
-        for i in range(0, len(tokens)-1, 2):
-            if tokens[i].startswith("curl"):
-                url = tokens[i+1]
-            elif "-H" in tokens[i]:
-                attr, value = tokens[i+1].split(": ")  # be careful space
-                header[attr] = value
-            elif "--data" in tokens[i]:
-                attr, value = tokens[i+1].split("=")
-                data[attr] = value
-    except Exception as e:
-        print "!"*20, "Parsed cURL Failed"
-        traceback.print_exc()
-    return url, header, data
+
 
 def traverse_tree_recusively(url, depth=0, max_depth=3):
     print 'current depth is %d, parsing: %s' % (depth, url)
