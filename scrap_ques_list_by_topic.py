@@ -141,7 +141,7 @@ def test_get_questions_by_topic():
     dao.insert_topic_question_relation(res)
 
 def add_jobs(cache):
-    if r.llen(TOPIC_URL) > 0:
+    if cache.llen(TOPIC_URL) > 0:
         return None
     dao = ZhihuTopicWriter(USED_DATABASE)
     for topic_id in dao.select_topic_ids():
