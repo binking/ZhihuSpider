@@ -83,10 +83,10 @@ def get_questions_by_topic(url, rconn):
     parser = bs(r.text, "html.parser")
     questions = parser.find_all("a", attrs={"class": "question_link"})
     footer = parser.find("div", attrs={"class": "zm-invite-pager"})
-    if not (questions and footer):
+    if not questions:
         print r.text
         raise Exception("Unknown HTML Source Code")
-    if "page=" not in url:
+    if "page=" not in url and footer:
         max_page = max([int(link.text) for link in footer.find_all("a", 
             href=re.compile(r"\?page="), text=re.compile(r'\d+'))])
         max_page = max_page if max_page <= 10 else 10
