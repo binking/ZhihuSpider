@@ -106,7 +106,7 @@ def get_questions_by_topic(url, rconn):
 
 def get_questions_by_topic_multi(cache):
     while True:
-        job = cache.blpop(TOPIC_URL, 0)[1]
+        job = cache.blpop(ZHIHU_TOPIC_URL, 0)[1]
         try:
             res = get_questions_by_topic(job, cache)
             if res:
@@ -115,9 +115,9 @@ def get_questions_by_topic_multi(cache):
         except Exception as e:  # no matter what was raised, cannot let process died
             traceback.print_exc()
             print 'Failed to Access Topic Url: ', job
-            cache.rpush(TOPIC_URL, job) # put job back
+            cache.rpush(ZHIHU_TOPIC_URL, job) # put job back
         except KeyboardInterrupt:
-            cache.rpush(TOPIC_URL, job) # put job back
+            cache.rpush(ZHIHU_TOPIC_URL, job) # put job back
 
 def write_relation_multi(cache):
     while True:
@@ -141,19 +141,19 @@ def test_get_questions_by_topic():
     dao.insert_topic_question_relation(res)
 
 def add_jobs(cache):
-    if cache.llen(TOPIC_URL) > 0:
+    if cache.llen(ZHIHU_TOPIC_URL) > 0:
         return None
     dao = ZhihuTopicWriter(USED_DATABASE)
     for topic_id in dao.select_topic_ids():
         job = "https://www.zhihu.com/topic/%s/top-answers" % topic_id
-        cache.rpushunit(TOPIC_URL, job)
+        cache.rpushunit(ZHIHU_TOPIC_URL, job)
 
 
 def main():
     try:
         r = ZC_Redis(**USED_REDIS)
         add_jobs(r)
-        print "Redis has %d records in cache" % r.llen(TOPIC_URL)
+        print "Redis has %d records in cache" % r.llen(ZHIHU_TOPIC_URL)
         cp = mp.current_process()
         print dt.now().strftime("%Y-%m-%d %H:%M:%S"), "Run All Works Process pid is %d" % (cp.pid)
         job_pool = mp.Pool(processes=4,
@@ -162,7 +162,7 @@ def main():
             initializer=write_relation_multi, initargs=(r, ))
         job_pool.close(); result_pool.close()
         job_pool.join(); result_pool.join()
-        print "+"*10, "jobs' length is ", r.llen(TOPIC_URL)
+        print "+"*10, "jobs' length is ", r.llen(ZHIHU_TOPIC_URL)
         print "+"*10, "results' length is ", r.llen(ZHIHU_QUESTION_LIST)
     except Exception as e:
         traceback.print_exc()
