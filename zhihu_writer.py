@@ -58,7 +58,7 @@ class ZhihuTopicWriter(DBAccesor):
 
     def select_topic_ids(self):
         sql = """
-            SELECT node_id from ZhihuTopicLeaf ztl
+            SELECT distinct node_id from ZhihuTopicLeaf ztl
             WHERE NOT EXISTS (
                 SELECT id FROM ZhihuTopicQuestionRelation 
                 WHERE topic_id=ztl.node_id);

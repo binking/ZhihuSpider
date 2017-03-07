@@ -79,7 +79,7 @@ def get_questions_by_topic(url, rconn):
     # import ipdb; ipdb.set_trace()
     r =requests.get(url, headers=header, data=post_data, timeout=20)
     if r.status_code != 200:
-        raise Exception("Response HTTP Code(%d)" % r.status_code)
+        raise Exception("Response(%s) HTTP Code(%d)" % (url, r.status_code))
     parser = bs(r.text, "html.parser")
     questions = parser.find_all("a", attrs={"class": "question_link"})
     footer = parser.find("div", attrs={"class": "zm-invite-pager"})
