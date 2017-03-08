@@ -35,28 +35,7 @@ elif 'centos' in os.environ.get('HOSTNAME'):
 else:
     raise Exception("Unknown Environment, Check it now...")
 
-ZHIHU_CURL = """curl 'https://www.zhihu.com/topic/19828558/top-answers?page=1' \
--H 'Accept-Encoding: gzip, deflate, sdch, br' -H 'Accept-Language: zh-CN,zh;q=0.8,en;\
-q=0.6,ja;q=0.4' -H 'Upgrade-Insecure-Requests: 1' -H 'User-Agent: Mozilla/5.0 \
-(Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 \
-Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,\
-image/webp,*/*;q=0.8' -H 'Cookie: aliyungf_tc=AQAAAOltWDH8ew0Axjlk05aQBNC6UGPP; \
-q_c1=34bdc85fdb4c416183480179f2c403ed|1488854789000|1488854789000; \
-_xsrf=000b609b5646b246678113a4639aba45; cap_id="YWMzZTdiMGM3NjM0NGQzZjhjYWUyNjZmN\
-TU2NTE0MGE=|1488854789|6239128d3ff39e178ab3b94f083101c7e10d2002"; l_cap_id="Njk4ZmU\
-wOTliNzcxNDZiNDk3MDAyMjMyOWE0MmQ5YTU=|1488854789|51597f9f49d4050e7c2e2e89db34917f4\
-2b4a63d"; d_c0="AGBCKfq9aQuPTpMXpKcohGO7Zy2eCCIcTac=|1488854793"; _zap=d9c6e5e4-8\
-ea4-44e2-9309-a7af8a50ddf2; auth_type="c2luYQ==|1488854826|432b302abb3327df3e63a5e68\
-ad4d1561ba26ffb"; token="Mi4wMENtYUpjR0VBNzIyRGJkYzFmZDRiMjUzeVRJM0Q=|1488854826|4dd\
-fb5a0c77971d942748187b1066c3449938b0b"; client_id="NjA2MDU4NDA3NA==|1488854826|74edd\
-90d3ec2c40c7cf96be7be0e6901220e3a55"; s-q=%E4%B9%9D%E9%BE%99%E6%B2%BB%E6%B0%B4; s-i=\
-2; sid=asbhd4eo; z_c0=Mi4wQUhBQzJ5ZS1hUXNBWUVJcC1yMXBDeGNBQUFCaEFsVk5ONnpsV0FEa3ZKZn\
-hUQzBSbXVMRUo0QWctUjduVVJTejRB|1488856756|facc84b1930eecb478aa62325b80abd2439f52c7; \
-nweb_qa=heifetz; __utma=51854390.1659697083.1488854807.1488854807.1488854807.1; __ut\
-mb=51854390.0.10.1488854807; __utmc=51854390; __utmz=51854390.1488854807.1.1.utmcsr\
-=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=51854390.100--|2=registration_date=\
-20170307=1^3=entry_date=20170307=1' -H 'Connection: keep-alive' --compressed"""
-ZHIHU_URL_2 = "curl 'https://www.zhihu.com/topic/19613907' -H 'Accept-Encoding: gzip, deflate, sdch, br' -H 'Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4' -H 'Upgrade-Insecure-Requests: 1' -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' -H 'Referer: https://www.zhihu.com/search?type=topic&q=%E5%AE%B6%E8%A3%85' -H 'Cookie: aliyungf_tc=AQAAAMNiK3rsWwwAxjlk00A2Jsa/ku3H; q_c1=83d3e2d9ffcb40b78d5588f925bc9118|1488942219000|1488942219000; _xsrf=54f6c50b4aa2d1734bf15cbaabd76662; cap_id="YzI4MTM0MDU4NGVlNDFkMDgwMDVhNWZhODEwM2JiMjk=|1488942219|c2bf7158774859fb4714006bc5f6019cc00b45f6"; l_cap_id="NzE5YjM5Y2VmNjg4NDI4YTg5MTAyYjExNDFiZjA0NzM=|1488942219|fc94000d00d35abd851497a17dac09429df3fe1a"; d_c0="AHCCaHwLawuPTtpLASV6-CT7CoXbh9KjyjQ=|1488942220"; _zap=5d6979ac-ed54-4963-bc9b-b121d82922c9; auth_type="c2luYQ==|1488942234|756ab1d2f1830b664a97678c762e532ae5e4abff"; atoken=2.008OM8iGEA722D0a279d1eafQGkL6E; atoken_expired_in=2649366; token="Mi4wMDhPTThpR0VBNzIyRDBhMjc5ZDFlYWZRR2tMNkU=|1488942234|66956f5a047660a51b9d108e25ca24fead06a571"; client_id="NjE1MzQzNzY1NQ==|1488942234|6c4b7ef73ff07c61c8351a279e76346616b1e479"; nweb_qa=heifetz; unlock_ticket="QUlBQ1lKa0xhd3NYQUFBQVlRSlZUYko3djFpMDZQOFlCVEY0bThFV3FxLTlhT0xiZXhXOHZRPT0=|1488942250|b9752eae68c96864a9340d5d63036934b2873385"; z_c0=Mi4wQUlBQ1lKa0xhd3NBY0lKb2ZBdHJDeGNBQUFCaEFsVk5xZ0huV0FDOXk0a2dTaHdpVUYweTI3dFJkVzRGbGJyeExB|1488943587|1e0ebd611eca395a72b03b553e341bc73e6abb9c; s-q=%E5%AE%B6%E8%A3%85; s-i=1; sid=v867ibi8; __utma=51854390.1248837612.1488942220.1488942220.1488942220.1; __utmb=51854390.0.10.1488942220; __utmc=51854390; __utmz=51854390.1488942220.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=51854390.100--|2=registration_date=20170308=1^3=entry_date=20170308=1' -H 'Connection: keep-alive' --compressed"
+ZHIHU_URL = "curl 'https://www.zhihu.com/topic/19613907' -H 'Accept-Encoding: gzip, deflate, sdch, br' -H 'Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4' -H 'Upgrade-Insecure-Requests: 1' -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' -H 'Referer: https://www.zhihu.com/search?type=topic&q=%E5%AE%B6%E8%A3%85' -H 'Cookie: aliyungf_tc=AQAAAMNiK3rsWwwAxjlk00A2Jsa/ku3H; q_c1=83d3e2d9ffcb40b78d5588f925bc9118|1488942219000|1488942219000; _xsrf=54f6c50b4aa2d1734bf15cbaabd76662; cap_id="YzI4MTM0MDU4NGVlNDFkMDgwMDVhNWZhODEwM2JiMjk=|1488942219|c2bf7158774859fb4714006bc5f6019cc00b45f6"; l_cap_id="NzE5YjM5Y2VmNjg4NDI4YTg5MTAyYjExNDFiZjA0NzM=|1488942219|fc94000d00d35abd851497a17dac09429df3fe1a"; d_c0="AHCCaHwLawuPTtpLASV6-CT7CoXbh9KjyjQ=|1488942220"; _zap=5d6979ac-ed54-4963-bc9b-b121d82922c9; auth_type="c2luYQ==|1488942234|756ab1d2f1830b664a97678c762e532ae5e4abff"; atoken=2.008OM8iGEA722D0a279d1eafQGkL6E; atoken_expired_in=2649366; token="Mi4wMDhPTThpR0VBNzIyRDBhMjc5ZDFlYWZRR2tMNkU=|1488942234|66956f5a047660a51b9d108e25ca24fead06a571"; client_id="NjE1MzQzNzY1NQ==|1488942234|6c4b7ef73ff07c61c8351a279e76346616b1e479"; nweb_qa=heifetz; unlock_ticket="QUlBQ1lKa0xhd3NYQUFBQVlRSlZUYko3djFpMDZQOFlCVEY0bThFV3FxLTlhT0xiZXhXOHZRPT0=|1488942250|b9752eae68c96864a9340d5d63036934b2873385"; z_c0=Mi4wQUlBQ1lKa0xhd3NBY0lKb2ZBdHJDeGNBQUFCaEFsVk5xZ0huV0FDOXk0a2dTaHdpVUYweTI3dFJkVzRGbGJyeExB|1488943587|1e0ebd611eca395a72b03b553e341bc73e6abb9c; s-q=%E5%AE%B6%E8%A3%85; s-i=1; sid=v867ibi8; __utma=51854390.1248837612.1488942220.1488942220.1488942220.1; __utmb=51854390.0.10.1488942220; __utmc=51854390; __utmz=51854390.1488942220.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=51854390.100--|2=registration_date=20170308=1^3=entry_date=20170308=1' -H 'Connection: keep-alive' --compressed"
 TOPIC_URL = "https://www.zhihu.com/topic/{topic_id}/top-answers?page={page}"
 ZHIHU_DOMAIN = "https://www.zhihu.com"
 ZHIHU_TOPIC_URL = "zhihu:topic:url"
@@ -174,5 +153,4 @@ def main():
 
 
 if __name__ == '__main__':
-    # test_get_questions_by_topic()
     main()
