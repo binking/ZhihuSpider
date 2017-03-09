@@ -61,7 +61,8 @@ class ZhihuTopicWriter(DBAccesor):
             SELECT distinct node_id from ZhihuTopicLeaf ztl
             WHERE NOT EXISTS (
                 SELECT id FROM ZhihuTopicQuestionRelation 
-                WHERE topic_id=ztl.node_id);
+                WHERE topic_id=ztl.node_id)
+            ORDER BY id desc;
             -- SELECT c_id FROM zhihutopictree
             -- WHERE p_id IN (
             --     SELECT c_id FROM zhihutopictree
