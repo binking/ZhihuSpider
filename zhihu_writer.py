@@ -146,7 +146,8 @@ class ZhihuAnswerWriter(DBAccesor):
             FROM zhihutopicquestionrelation zr
             WHERE not EXISTS (
             SELECT id FROM zhihuanswer 
-            WHERE topic_url=zr.question_url);
+            WHERE topic_url=zr.question_url)
+            LIMIT 100;
         """
         conn = self.connect_database()
         cursor = conn.cursor()
