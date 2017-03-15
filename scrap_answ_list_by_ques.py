@@ -220,6 +220,7 @@ def write_answers_multi(cache):
 def add_jobs(cache):
      if cache.llen(ZHIHU_QUES_URL) > 10:
           print "There are still %d questions .." % cache.llen(ZHIHU_QUES_URL)
+          return 
      dao = ZhihuAnswerWriter(USED_DATABASE)
      for job in dao.select_question_urls():
           cache.rpush(ZHIHU_QUES_URL, job)
