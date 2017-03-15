@@ -130,8 +130,8 @@ class ZhihuAnswerWriter(DBAccesor):
         cursor = conn.cursor()
         for info in data:
             if cursor.execute(insert_sql, (
-                info['uri'], info['uri'], theme, theme, bucketName,
-                info['create_date'], info['uri'], info['user_name'], 
+                info['uri'][:500], info['uri'][:500], theme, theme, bucketName,
+                info['create_date'], info['uri'][:500], info['user_name'], 
                 info['user_intro'], info['user_id'], info['user_url'], 
                 info['user_img'], info['ans_url'], info['content'], 
                 info['sub_date'], info['comment_num'], info['like_num'],
