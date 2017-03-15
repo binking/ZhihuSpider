@@ -190,9 +190,9 @@ def get_answers_by_question_multi(cache):
         job = cache.blpop(ZHIHU_QUES_URL, 0)[1]
         try:
             if "api/v4" in job:
-               res = process_xhr(job)
+               res = process_xhr(job, cache)
             else:
-               res = process_url(job)
+               res = process_url(job, cache)
             if res:
                 cache.rpush(ZHIHU_QUES_INFO, pickle.dumps(res))
             time.sleep(5)
