@@ -36,7 +36,10 @@ elif 'centos' in os.environ.get('HOSTNAME'):
 else:
     raise Exception("Unknown Environment, Check it now...")
 
-ZHIHU_CURL = """curl 'https://www.zhihu.com/question/19583984' -H 'Accept-Encoding: gzip, deflate, sdch, br' -H 'Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4' -H 'Upgrade-Insecure-Requests: 1' -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' -H 'Cookie: aliyungf_tc=AQAAAOxweiefZQIAxjlk08odKyENU6BC; q_c1=b45383d7a46647d3b68d9ee07a42f085|1489489367000|1489489367000; _xsrf=7db6e14e59d82098049ac271e0949512; cap_id="MWFkZTAzODI0NDI0NDQwMmE2NTFlMjYzMTlkODk2MGM=|1489489367|9f994aecd359345b558d179b21bec8b2388cdeeb"; l_cap_id="Y2NlNmQ2NmEzODY1NGQ5ZmJlYjY0ZmI3ZWUyYWY0ZGY=|1489489367|7eb6cc43ca86c5e4aee1e5ba67aa423318d31183"; d_c0="AEDC4K8ycwuPTsC65vyEfzsuQbLbv5S5hKc=|1489489367"; _zap=5922ccbe-1adb-4ce0-8300-e853175dd723; auth_type="c2luYQ==|1489489377|ab409ee818e85685f3a2401aaadeaa3f30a9588b"; atoken=2.00e1WLiGEA722D832e159b18eNzy1B; atoken_expired_in=2620622; token="Mi4wMGUxV0xpR0VBNzIyRDgzMmUxNTliMThlTnp5MUI=|1489489377|f99031bfb8609d657ede3fbf5ac6a8cd28a46a07"; client_id="NjE0OTcwMTY3Mg==|1489489377|67932346f91c82f45f010751b5fe1a423ea89934"; unlock_ticket="QUpEQ3RNVXljd3NYQUFBQVlRSlZUZmJVeDFpbXN6NkJYQzFQandiLTFqUjU4UmpYMi14RjhBPT0=|1489489390|45f5ff5b3cfb8c4f3b30373c39ccd4d053cec7c3"; __utma=51854390.415068979.1489489367.1489489367.1489489367.1; __utmb=51854390.0.10.1489489367; __utmc=51854390; __utmz=51854390.1489489367.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=51854390.100--|2=registration_date=20170314=1^3=entry_date=20170314=1; z_c0=Mi4wQUpEQ3RNVXljd3NBUU1MZ3J6SnpDeGNBQUFCaEFsVk43bHJ2V0FBd0piS295MjVQN3d1UHB1amN4WFN1ZHRieDdn|1489489443|e0cedb1fe404a8929de407764bddaf95e3b8d5d9; nweb_qa=heifetz' -H 'Connection: keep-alive' --compressed"""
+# account : 15907390239; gqkysa282
+# https://www.zhihu.com/people/wu-wang-jian-zhi-suo-zhi-14/activities
+ZHIHU_CURL = """curl 'https://www.zhihu.com/question/19583984' -H 'Accept-Encoding: gzip, deflate, sdch, br' -H 'Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4' -H 'Upgrade-Insecure-Requests: 1' -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' -H 'Cookie: aliyungf_tc=AQAAAH1fBxELDQ8Axjlk093nV0wHUnxU; q_c1=51683a039c4a45db9a23e32cdbfe3bbb|1489550128000|1489550128000; _xsrf=9772a35925e44fd36556731f070f7007; cap_id="ZTFlYWZhYzVjZWEyNGRiZWI2MGJjOWFkNTI2YzQyNjI=|1489550128|ce2a8281f92b6a22d6b2c07af0cc6d0f8ec9d867"; l_cap_id="YzRlZWQ4M2IwNDVhNGFmOTk2YTQyNGYxN2ZiYWI0MDQ=|1489550128|191b89ce0d82baae3c50db021bc94a5941835918"; d_c0="ABDCxngadAuPTvKcK_8SjlfGsExvR0fRCtw=|1489550128"; _zap=b8b5aa19-6fbc-40dd-93bd-f6f6f050750b; auth_type="c2luYQ==|1489550135|dca5f76ffde552bef000368437f4aaab40f2e486"; atoken=2.00s9uMiGEA722Df76d028ff76rSb7E; atoken_expired_in=2646265; token="Mi4wMHM5dU1pR0VBNzIyRGY3NmQwMjhmZjc2clNiN0U=|1489550135|1227674c93566b98b642dd6c84b2d7c4694172ac"; client_id="NjE1MDAzMjc2Ng==|1489550135|c6567ef20f1fe19f6578c4250763ce10c7a607b4"; nweb_qa=heifetz; unlock_ticket="QUJCQ1JJd2FkQXNYQUFBQVlRSlZUVXpDeUZoa0Y1NmtLVEk0NzRyNm1PWlk2QTVIMEE3OGlBPT0=|1489550148|642c85b4e5782653eb4cde260b77900ed94efa9d"; __utma=51854390.6428113.1489550128.1489550128.1489550128.1; __utmb=51854390.0.10.1489550128; __utmc=51854390; __utmz=51854390.1489550128.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmv=51854390.100--|2=registration_date=20170315=1^3=entry_date=20170315=1; z_c0=Mi4wQUJCQ1JJd2FkQXNBRU1MR2VCcDBDeGNBQUFCaEFsVk5SRWp3V0FCYS1kOC1LWDdpdnY5b2sxeDJPc05KLTlYb1hn|1489550149|3cdd56dcffd9b169b98f18588c8c100970b19abf' -H 'Connection: keep-alive' --compressed"""
+ZHIHU_API_CURL = """curl 'https://www.zhihu.com/api/v4/questions/19583984/answers?include=data%5B*%5D.is_normal%2Cis_sticky%2Ccollapsed_by%2Csuggest_edit%2Ccomment_count%2Ccollapsed_counts%2Creviewing_comments_count%2Ccan_comment%2Ccontent%2Ceditable_content%2Cvoteup_count%2Creshipment_settings%2Ccomment_permission%2Cmark_infos%2Ccreated_time%2Cupdated_time%2Crelationship.is_author%2Cvoting%2Cis_thanked%2Cis_nothelp%2Cupvoted_followees%3Bdata%5B*%5D.author.is_blocking%2Cis_blocked%2Cis_followed%2Cvoteup_count%2Cmessage_thread_token%2Cbadge%5B%3F(type%3Dbest_answerer)%5D.topics&offset=3&limit=20&sort_by=default' -H 'Accept-Encoding: gzip, deflate, sdch, br' -H 'Accept-Language: zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4' -H 'authorization: Bearer Mi4wQUJCQ1JJd2FkQXNBRU1MR2VCcDBDeGNBQUFCaEFsVk5SRWp3V0FCYS1kOC1LWDdpdnY5b2sxeDJPc05KLTlYb1hn|1489550149|3cdd56dcffd9b169b98f18588c8c100970b19abf' -H 'accept: application/json, text/plain, */*' -H 'Referer: https://www.zhihu.com/question/19583984' -H 'x-udid: ABDCxngadAuPTvKcK_8SjlfGsExvR0fRCtw=' -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36' -H 'Connection: keep-alive' --compressed"""
 ZHIHU_QUES_URL = "zhihu:question:url"
 ZHIHU_QUES_INFO = "zhihu:answer:list"
 
@@ -124,7 +127,7 @@ def process_xhr(url, rconn):
      ret = []
      print "Parsing : ", url,
      now_time = dt.now().strftime("%Y-%m-%d %H:%M:%S")
-     _, header, post_data = resolve_curl(ZHIHU_CURL)
+     _, header, post_data = resolve_curl(ZHIHU_API_CURL)
      # import ipdb; ipdb.set_trace()
      r = requests.get(url, headers=header, data=post_data, timeout=20)
      if r.status_code != 200:
@@ -188,9 +191,9 @@ def get_answers_by_question_multi(cache):
         job = cache.blpop(ZHIHU_QUES_URL, 0)[1]
         try:
             if "api/v4" in job:
-               res = process_xhr(job)
+               res = process_xhr(job, cache)
             else:
-               res = process_url(job)
+               res = process_url(job, cache)
             if res:
                 cache.rpush(ZHIHU_QUES_INFO, pickle.dumps(res))
             time.sleep(5)
