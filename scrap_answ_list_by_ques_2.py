@@ -239,6 +239,6 @@ def main():
 
 
 if __name__ == '__main__':
-     test_process_url()
-     test_process_xhr()
-     # main()
+    # test_process_url()
+    # test_process_xhr()
+    main()
