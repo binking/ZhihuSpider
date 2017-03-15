@@ -103,3 +103,70 @@ class ZhihuTopicWriter(DBAccesor):
             else:
                 print "Relation(%s-->%s) Existed ..." % (relation['topic_id'], relation['question_url'])
         conn.close() 
+
+
+class ZhihuAnswerWriter(DBAccesor):
+    def __init__(self, db_dict):
+        DBAccesor.__init__(self, db_dict)
+
+    def connect_database(self):
+        return DBAccesor.connect_database(self)
+
+    def insert_answer_list(self, data):
+        theme = '知乎_问题和回答python'
+        bucketName = 'list'
+        insert_sql = """
+            INSERT INTO ZhihuAnswer (
+            fullpath, realpath, theme, middle, bucketName, 
+            createdate, uri, answer_author_nickname, answer_author_intro, 
+            answer_author_id, answer_author_url, answer_author_portrait, 
+            answer_url, answer_content, sub_date, answer_comment_num, 
+            answer_thumb_up_num, topic_url)
+            SELECT  %s,%s,%s, %s,%s,%s,%s,%s, %s,%s,%s,%s,%s, %s,%s,%s,%s,%s
+            FROM DUAL WHERE NOT EXISTS (
+            SELECT id FROM ZhihuAnswer WHERE answer_url=%s)
+        """
+        conn = self.connect_database()
+        cursor = conn.cursor()
+        for info in data:
+            if cursor.execute(insert_sql, (
+                info['uri'], info['uri'], theme, theme, bucketName,
+                info['create_date'], info['uri'], info['user_name'], 
+                info['user_intro'], info['user_id'], info['user_url'], 
+                info['user_img'], info['ans_url'], info['content'], 
+                info['sub_date'], info['comment_num'], info['like_num'],
+                info['ques_url'], info['ans_url'])):
+                print '$'*10, 'Insert Answer(%s) succeeded !' % info['ans_url']
+        conn.commit(); cursor.close(); conn.close()
+        return True
+
+    def select_question_urls(self):
+        sql = """
+            SELECT DISTINCT question_url
+            FROM zhihutopicquestionrelation zr
+            WHERE not EXISTS (
+            SELECT id FROM zhihuanswer 
+            WHERE topic_url=zr.question_url);
+        """
+        conn = self.connect_database()
+        cursor = conn.cursor()
+        cursor.execute(sql)
+        for res in cursor.fetchall():
+            yield res[0]
+"""
+fullpath
+realpath
+createdate 
+uri 
+answer_author_nickname
+answer_author_intro
+answer_author_id
+answer_author_url
+answer_author_portrait
+answer_url
+answer_content
+sub_date
+answer_comment_num
+answer_thumb_up_num
+topic_url  ques_url
+"""
