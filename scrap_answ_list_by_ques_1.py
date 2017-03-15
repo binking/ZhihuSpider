@@ -239,7 +239,6 @@ def write_answers_multi(cache):
 def main():
     try:
         r = StrictRedis(**USED_REDIS)
-        add_jobs(r)
         print "Redis has %d records in cache" % r.llen(ZHIHU_QUES_URL)
         cp = mp.current_process()
         print dt.now().strftime("%Y-%m-%d %H:%M:%S"), "Run All Works Process pid is %d" % (cp.pid)
