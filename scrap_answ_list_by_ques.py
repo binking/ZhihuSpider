@@ -60,7 +60,7 @@ def process_url(url, rconn):
      ret = []
      print "Parsing : ", url,
      now_time = dt.now().strftime("%Y-%m-%d %H:%M:%S")
-     _, header, post_data = resolve_curl(ZHIHU_CURL)
+     _, header, post_data = resolve_curl(ZHIHU_API_CURL)
      # import ipdb; ipdb.set_trace()
      r = requests.get(url, headers=header, data=post_data, timeout=20)
      if r.status_code != 200:
